@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
 
-function Login() {
-  const [cookies] = useCookies([]);
+function LoginUsers() {
+  const [cookies, setCookie] = useCookies([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (cookies.jwt) {
       navigate("/");
@@ -14,26 +15,29 @@ function Login() {
   }, [cookies, navigate]);
 
   const [values, setValues] = useState({ email: "", password: "" });
+
   const generateError = (error) =>
     toast.error(error, {
       position: "bottom-right",
     });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/login",
-        {
-          ...values,
-        },
+        "http://localhost:4000/loginUsers",
+        { ...values },
         { withCredentials: true }
       );
+
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;
           if (email) generateError(email);
           else if (password) generateError(password);
-        } else {
+        } else if (data.token) {
+          // Authentification réussie, stocker le token
+          setCookie("jwt", data.token, { path: "/", httpOnly: true });
           navigate("/");
         }
       }
@@ -41,9 +45,10 @@ function Login() {
       console.log(ex);
     }
   };
+
   return (
     <div className="container">
-      <h2>Login to your Account</h2>
+      <h2>Connexion</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <label htmlFor="email">Email</label>
@@ -51,25 +56,21 @@ function Login() {
             type="email"
             name="email"
             placeholder="Email"
-            onChange={(e) =>
-              setValues({ ...values, [e.target.name]: e.target.value })
-            }
+            onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Mot de passe</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             name="password"
-            onChange={(e) =>
-              setValues({ ...values, [e.target.name]: e.target.value })
-            }
+            onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Connexion</button>
         <span>
-          Don't have an account ?<Link to="/register"> Register </Link>
+          Pas de compte ?<Link to="/register"> S'enregistrer </Link>
         </span>
       </form>
       <ToastContainer />
@@ -77,4 +78,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginUsers;

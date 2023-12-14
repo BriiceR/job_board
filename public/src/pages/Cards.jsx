@@ -10,7 +10,7 @@ export default function Cards() {
   useEffect(() => {
     const verifyUser = async () => {
       if (!cookies.jwt) {
-        navigate("/login");
+        navigate("/loginUsers");
       } else {
         const { data } = await axios.post(
           "http://localhost:4000",
@@ -21,7 +21,7 @@ export default function Cards() {
         );
         if (!data.status) {
           removeCookie("jwt");
-          navigate("/login");
+          navigate("/loginUsers");
         } else
           toast(`Hi ${data.user} 🦄`, {
             theme: "dark",
@@ -33,7 +33,7 @@ export default function Cards() {
 
   const logOut = () => {
     removeCookie("jwt");
-    navigate("/login");
+    navigate("/loginUsers");
   };
   return (
     <>

@@ -3,22 +3,33 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+
 function Register() {
   const [cookies] = useCookies(["cookie-name"]);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (cookies.jwt) {
       navigate("/");
     }
   }, [cookies, navigate]);
 
-  const [values, setValues] = useState({ email: "", password: "" });
+  const [values, setValues] = useState({ email: "", password: "", confirmPassword: "" });
+
   const generateError = (error) =>
     toast.error(error, {
       position: "bottom-right",
     });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Vérification si les mots de passe correspondent
+    if (values.password !== values.confirmPassword) {
+      generateError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
     try {
       const { data } = await axios.post(
         "http://localhost:4000/register",
@@ -27,6 +38,7 @@ function Register() {
         },
         { withCredentials: true }
       );
+
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;
@@ -40,9 +52,10 @@ function Register() {
       console.log(ex);
     }
   };
+
   return (
     <div className="container">
-      <h2>Register Account</h2>
+      <h2>S'inscrire</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <label htmlFor="email">Email</label>
@@ -56,19 +69,30 @@ function Register() {
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Mot de passe</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             name="password"
             onChange={(e) =>
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
         </div>
-        <button type="submit">Submit</button>
+        <div>
+          <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            name="confirmPassword"
+            onChange={(e) =>
+              setValues({ ...values, [e.target.name]: e.target.value })
+            }
+          />
+        </div>
+        <button type="submit">S'inscrire</button>
         <span>
-          Already have an account ?<Link to="/login"> Login</Link>
+          Déjà un compte ?<Link to="/loginUsers"> Se connecter</Link>
         </span>
       </form>
       <ToastContainer />
