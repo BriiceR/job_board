@@ -10,7 +10,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(236, 236, 238);
+  /* background-color: rgb(236, 236, 238); */
+  background-image: url(image.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
   overflow: hidden;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -21,6 +25,14 @@ body {
   padding-bottom: 2rem;
   border-radius: 0.5rem;
   border-top: rgb(80, 98, 255) 0.5rem solid;
+}
+
+.containerCompanies {
+  background-color: white;
+  padding: 1rem 3rem;
+  padding-bottom: 2rem;
+  border-radius: 0.5rem;
+  border-top: #F24242 0.5rem solid;
 }
 
 h2 {

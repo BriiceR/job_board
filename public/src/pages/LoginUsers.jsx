@@ -31,11 +31,12 @@ function LoginUsers() {
       );
 
       if (data) {
+        
         if (data.errors) {
           const { email, password } = data.errors;
           if (email) generateError(email);
           else if (password) generateError(password);
-        } else if (data.token) {
+        } else {
           // Authentification réussie, stocker le token
           setCookie("jwt", data.token, { path: "/", httpOnly: true });
           navigate("/");
