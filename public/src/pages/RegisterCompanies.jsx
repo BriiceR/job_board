@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+import { CompanyButton, ContainerCompanies, DivForm, TitleForm, Form, InputForm } from "../utils/utils";
 
 function Register() {
   const [cookies] = useCookies(["cookie-name"]);
@@ -54,12 +55,12 @@ function Register() {
   };
 
   return (
-    <div className="containerCompanies">
-      <h2>S'inscrire</h2>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
+    <ContainerCompanies>
+      <TitleForm>S'inscrire</TitleForm>
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <DivForm>
           <label htmlFor="email">Email</label>
-          <input
+          <InputForm
             type="email"
             name="email"
             placeholder="Email"
@@ -67,10 +68,10 @@ function Register() {
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
-        </div>
-        <div>
+        </DivForm>
+        <DivForm>
           <label htmlFor="password">Mot de passe</label>
-          <input
+          <InputForm
             type="password"
             placeholder="Mot de passe"
             name="password"
@@ -78,10 +79,10 @@ function Register() {
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
-        </div>
-        <div>
+        </DivForm>
+        <DivForm>
           <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-          <input
+          <InputForm
             type="password"
             placeholder="Mot de passe"
             name="confirmPassword"
@@ -89,14 +90,14 @@ function Register() {
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
-        </div>
-        <button style={{backgroundColor: "#F24242"}} type="submit">S'inscrire</button>
+        </DivForm>
+        <CompanyButton type="submit">S'inscrire</CompanyButton>
         <span>
-          Déjà un compte ?<Link style={{ color: "#F24242"}} to="/loginCompanies"> Se connecter</Link>
+          Déjà un compte ?<Link style={{textDecoration: "none", color: "#F24242"}} to="/loginCompanies"> Se connecter</Link>
         </span>
-      </form>
+      </Form>
       <ToastContainer />
-    </div>
+    </ContainerCompanies>
   );
 }
 

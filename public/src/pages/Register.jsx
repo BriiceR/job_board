@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+import { ContainerUser, DivForm, InputForm, TitleForm, UserButton, Form } from "../utils/utils";
 
 function Register() {
   const [cookies] = useCookies(["cookie-name"]);
@@ -54,12 +55,12 @@ function Register() {
   };
 
   return (
-    <div className="container">
-      <h2>S'inscrire</h2>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
+    <ContainerUser>
+    <TitleForm>S'inscrire</TitleForm>
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <DivForm>
           <label htmlFor="email">Email</label>
-          <input
+          <InputForm
             type="email"
             name="email"
             placeholder="Email"
@@ -67,10 +68,10 @@ function Register() {
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
-        </div>
-        <div>
+        </DivForm>
+        <DivForm>
           <label htmlFor="password">Mot de passe</label>
-          <input
+          <InputForm
             type="password"
             placeholder="Mot de passe"
             name="password"
@@ -78,10 +79,10 @@ function Register() {
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
-        </div>
-        <div>
+        </DivForm>
+        <DivForm>
           <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-          <input
+          <InputForm
             type="password"
             placeholder="Mot de passe"
             name="confirmPassword"
@@ -89,14 +90,14 @@ function Register() {
               setValues({ ...values, [e.target.name]: e.target.value })
             }
           />
-        </div>
-        <button type="submit">S'inscrire</button>
+        </DivForm>
+        <UserButton type="submit">S'inscrire</UserButton>
         <span>
-          Déjà un compte ?<Link to="/loginUsers"> Se connecter</Link>
+          Déjà un compte ?<Link style={{ textDecoration: "none", color: "#5062ff"}} to="/loginUsers"> Se connecter</Link>
         </span>
-      </form>
+      </Form>
       <ToastContainer />
-    </div>
+    </ContainerUser>
   );
 }
 

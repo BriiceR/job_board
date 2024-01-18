@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import { CompanyButton, ContainerCompanies, DivForm, TitleForm, Form, InputForm } from "../utils/utils";
 
 function LoginCompanies() {
   const [cookies, setCookie] = useCookies([]);
@@ -48,34 +49,34 @@ function LoginCompanies() {
   };
 
   return (
-    <div className="containerCompanies">
-      <h2>Connexion</h2>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
+    <ContainerCompanies>
+      <TitleForm>Connexion</TitleForm>
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <DivForm>
           <label htmlFor="email">Email</label>
-          <input
+          <InputForm
             type="email"
             name="email"
             placeholder="Email"
             onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
-        </div>
-        <div>
+        </DivForm>
+        <DivForm>
           <label htmlFor="password">Mot de passe</label>
-          <input
+          <InputForm
             type="password"
             placeholder="Mot de passe"
             name="password"
             onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
-        </div>
-        <button style={{backgroundColor: "#F24242"}} type="submit">Connexion</button>
+        </DivForm>
+        <CompanyButton style={{backgroundColor: "#F24242"}} type="submit">Connexion</CompanyButton>
         <span>
-          Pas de compte ?<Link style={{ color: "#F24242"}} to="/registerCompanies"> S'enregistrer </Link>
+          Pas de compte ?<Link style={{textDecoration: "none", color: "#F24242"}} to="/registerCompanies"> S'enregistrer </Link>
         </span>
-      </form>
+      </Form>
       <ToastContainer />
-    </div>
+    </ContainerCompanies>
   );
 }
 

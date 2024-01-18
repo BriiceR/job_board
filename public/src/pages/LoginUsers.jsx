@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import HeaderLogin from "../components/HeaderLogin";
+import { ContainerUser, TitleForm, Form, DivForm, InputForm, UserButton } from "../utils/utils";
 
 function LoginUsers() {
   const [cookies, setCookie] = useCookies([]);
@@ -48,34 +50,37 @@ function LoginUsers() {
   };
 
   return (
-    <div className="container">
-      <h2>Connexion</h2>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
+    <>
+    <HeaderLogin />
+    <ContainerUser>
+      <TitleForm>Connexion</TitleForm>
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <DivForm>
           <label htmlFor="email">Email</label>
-          <input
+          <InputForm
             type="email"
             name="email"
             placeholder="Email"
             onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
-        </div>
-        <div>
+        </DivForm>
+        <DivForm>
           <label htmlFor="password">Mot de passe</label>
-          <input
+          <InputForm
             type="password"
             placeholder="Mot de passe"
             name="password"
             onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
-        </div>
-        <button type="submit">Connexion</button>
+        </DivForm>
+        <UserButton type="submit">Connexion</UserButton>
         <span>
-          Pas de compte ?<Link to="/register"> S'enregistrer </Link>
+          Pas de compte ?<Link style={{ textDecoration: "none", color: "#5062ff"}} to="/register"> S'enregistrer </Link>
         </span>
-      </form>
+      </Form>
       <ToastContainer />
-    </div>
+    </ContainerUser>
+    </>
   );
 }
 
