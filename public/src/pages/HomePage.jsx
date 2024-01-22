@@ -1,17 +1,17 @@
 import React from 'react'
-import { UserButton, CompanyButton } from '../utils/utils'
+import { UserButton, CompanyButton, SuperContainer } from '../utils/utils'
 
 
 function HomePage() {
     
     return (
         <>
-        <div style={{display: "flex", justifyContent: "center", marginBottom: "4rem", marginTop: "-4rem"}}>
+        <div style={{display: "flex", justifyContent: "center", paddingTop: "10rem"}}>
         <h1 style={{fontSize: "3rem", color: "white"}}>indead</h1>
         </div>
-        <div>
-            <UserButton onClick={() => window.location.href = "/loginUsers"} style={{padding: "1rem", marginLeft: "-1rem"}}>Accès candidats</UserButton>
-            <CompanyButton onClick={() => window.location.href = "/loginCompanies"} style={{padding: "1rem", backgroundColor: "#F24242", marginLeft: "1rem"}}>Accès entreprises</CompanyButton>
+        <div style={{display: "flex", justifyContent: "center", marginTop: "5rem"}}>
+            <UserButton style={{padding: "1rem", marginLeft: "-1rem"}} onClick={() => window.location.href = "/loginUsers"}>Accès candidats</UserButton>
+            <CompanyButton style={{padding: "1rem", marginLeft: "1rem"}} onClick={() => window.location.href = "/loginCompanies"}>Accès entreprises</CompanyButton>
         </div>
         </>
     )

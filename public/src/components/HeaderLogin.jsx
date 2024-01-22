@@ -1,11 +1,13 @@
 import React from 'react'
 import homeIcon from '../assets/home.svg'
 import styled from '@emotion/styled'
+import { Logo } from '../utils/utils'
 
 function HeaderLogin() {
     return (
         <DivIcon>
-            <Icon src={homeIcon} alt="home" />
+            <Logo>indead</Logo>
+            <Icon src={homeIcon} alt="home" onClick={() => window.location.href = "/homePage"} />
         </DivIcon>
     )
 }
@@ -13,8 +15,9 @@ function HeaderLogin() {
 export default HeaderLogin
 
 const DivIcon = styled.div`
+padding: 1rem 1rem 5rem 1rem;
 display: flex;
-justify-content: end;
+justify-content: space-between;
 `
 
 const Icon = styled.img`
@@ -22,3 +25,4 @@ const Icon = styled.img`
     cursor: pointer;
 }
 `
+

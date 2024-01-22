@@ -3,7 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
-import { CompanyButton, ContainerCompanies, DivForm, TitleForm, Form, InputForm } from "../utils/utils";
+import { CompanyButton, ContainerCompanies, DivForm, TitleForm, Form, InputForm, SuperContainer } from "../utils/utils";
+import HeaderLogin from "../components/HeaderLogin";
 
 function LoginCompanies() {
   const [cookies, setCookie] = useCookies([]);
@@ -49,6 +50,9 @@ function LoginCompanies() {
   };
 
   return (
+    <>
+    <HeaderLogin />
+    <SuperContainer>
     <ContainerCompanies>
       <TitleForm>Connexion</TitleForm>
       <Form onSubmit={(e) => handleSubmit(e)}>
@@ -77,6 +81,8 @@ function LoginCompanies() {
       </Form>
       <ToastContainer />
     </ContainerCompanies>
+    </SuperContainer>
+    </>
   );
 }
 

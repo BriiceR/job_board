@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import HeaderLogin from "../components/HeaderLogin";
-import { ContainerUser, TitleForm, Form, DivForm, InputForm, UserButton, SuperContainer } from "../utils/utils";
+import { ContainerAdmin, TitleForm, Form, DivForm, InputForm, AdminButton, SuperContainer } from "../utils/utils";
 
-function LoginUsers() {
+function LoginAdmin() {
   const [cookies, setCookie] = useCookies([]);
   const navigate = useNavigate();
 
@@ -31,7 +31,6 @@ function LoginUsers() {
         { ...values },
         { withCredentials: true }
       );
-
       if (data) {
         
         if (data.errors) {
@@ -53,8 +52,8 @@ function LoginUsers() {
     <>
     <HeaderLogin />
     <SuperContainer>
-    <ContainerUser>
-      <TitleForm>Connexion</TitleForm>
+    <ContainerAdmin>
+      <TitleForm>Connexion Admin</TitleForm>
       <Form onSubmit={(e) => handleSubmit(e)}>
         <DivForm>
           <label htmlFor="email">Email</label>
@@ -74,16 +73,13 @@ function LoginUsers() {
             onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
           />
         </DivForm>
-        <UserButton type="submit">Connexion</UserButton>
-        <span>
-          Pas de compte ?<Link style={{ textDecoration: "none", color: "#5062ff"}} to="/register"> S'enregistrer </Link>
-        </span>
+        <AdminButton type="submit">Connexion</AdminButton>
       </Form>
       <ToastContainer />
-    </ContainerUser>
+    </ContainerAdmin>
     </SuperContainer>
     </>
   );
 }
 
-export default LoginUsers;
+export default LoginAdmin;

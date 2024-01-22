@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import HeaderUsers from "../components/HeaderUsers";
 
-export default function Cards() {
+export default function BordUsers() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies([]);
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function Cards() {
           removeCookie("jwt");
           navigate("/loginUsers");
         } else
-          toast(`Hi ${data.user} 🦄`, {
+          toast(`Hi ${data.user}`, {
             theme: "dark",
           });
       }
@@ -33,13 +34,17 @@ export default function Cards() {
 
   const logOut = () => {
     removeCookie("jwt");
-    navigate("/loginUsers");
+    navigate("/homePage");
   };
   return (
     <>
-      <div className="private">
-        <h1>Super Secret Page</h1>
-        <button onClick={logOut}>Log out</button>
+      <div style={{ backgroundColor: "black", height: "100vh", width: "100vw"}}>
+        <HeaderUsers logOut={logOut} />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <div style={{ backgroundColor: "black", height: "20rem", width: "96vw", border: "3px solid white", borderRadius: "1rem"}}>
+            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Liste des annonces</h1>
+          </div>
+        </div>
       </div>
       <ToastContainer />
     </>
