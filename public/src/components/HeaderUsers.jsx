@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Logo, colors } from '../utils/utils'
 
-function HeaderUsers( { logOut } ) {
+function HeaderUsers( { OnClick } ) {
     
     return (
         <DivIcon>
@@ -10,7 +10,7 @@ function HeaderUsers( { logOut } ) {
             <div style={{display: "flex", alignItems: "center"}}>
                 <LinkHeader>Profil</LinkHeader>
                 <LinkHeader>Candidatures</LinkHeader>
-                <Logout onClick={logOut}>Déconnexion</Logout>
+                <Logout onClick={OnClick}>Déconnexion</Logout>
             </div>
         </DivIcon>
     )
