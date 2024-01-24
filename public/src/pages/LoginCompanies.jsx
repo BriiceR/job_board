@@ -12,7 +12,7 @@ function LoginCompanies() {
 
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/");
+      navigate("/loginCompanies");
     }
   }, [cookies, navigate]);
 
@@ -27,7 +27,7 @@ function LoginCompanies() {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/loginUsers",
+        "http://localhost:4000/loginCompanies",
         { ...values },
         { withCredentials: true }
       );
@@ -41,7 +41,7 @@ function LoginCompanies() {
         } else {
           // Authentification réussie, stocker le token
           setCookie("jwt", data.token, { path: "/", httpOnly: true });
-          navigate("/");
+          navigate("/company");
         }
       }
     } catch (ex) {

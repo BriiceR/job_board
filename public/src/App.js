@@ -8,6 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import LoginCompanies from "./pages/LoginCompanies";
 import RegisterCompanies from "./pages/RegisterCompanies";
 import LoginAdmin from "./pages/LoginAdmin";
+import BordUsersProfil from "./pages/BordUsersProfil";
+import BordUsersCand from "./pages/BordUsersCand";
+import BordCompanies from "./pages/BordCompanies";
+import BordCompaniesProfil from "./pages/BordCompaniesProfil";
 
 export default function App() {
   return (
@@ -20,6 +24,10 @@ export default function App() {
         <Route exact path="/loginCompanies" element={<LoginCompanies />} />
         <Route exact path="/loginAdmin" element={<LoginAdmin />} />
         <Route exact path="/" element={<BordUsers />} />
+        <Route exact path="/profil" element={<BordUsersProfil />} />
+        <Route exact path="/cand" element={<BordUsersCand />} />
+        <Route exact path="/company" element={<BordCompanies />} />
+        <Route exact path="/company/profil" element={<BordCompaniesProfil />} />
       </Routes>
     </BrowserRouter>
   );

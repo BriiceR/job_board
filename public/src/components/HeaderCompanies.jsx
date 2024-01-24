@@ -2,21 +2,21 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Logo, colors } from '../utils/utils'
 
-function HeaderUsers( { OnClick } ) {
+function HeaderCompanies( { OnClick } ) {
     
     return (
         <DivIcon>
-            <Logo onClick={() => window.location.href = "/"}>indead</Logo>
+            <Logo onClick={() => window.location.href = "/company"}>indead</Logo>
             <div style={{display: "flex", alignItems: "center"}}>
-                <LinkHeader onClick={() => window.location.href = "/profil"}>Profil</LinkHeader>
-                <LinkHeader onClick={() => window.location.href = "/cand"}>Candidatures</LinkHeader>
+                <LinkHeader onClick={() => window.location.href = "/company/profil"}>Profil</LinkHeader>
+                <LinkHeader onClick={() => window.location.href = "/cand"}>Mes Annonces</LinkHeader>
                 <Logout onClick={OnClick}>Déconnexion</Logout>
             </div>
         </DivIcon>
     )
 }
 
-export default HeaderUsers
+export default HeaderCompanies
 
 const DivIcon = styled.div`
 padding: 1rem 1rem 1rem 1rem;

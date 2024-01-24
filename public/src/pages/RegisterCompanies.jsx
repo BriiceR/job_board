@@ -12,7 +12,7 @@ function Register() {
 
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/");
+      navigate("/loginCompanies");
     }
   }, [cookies, navigate]);
 
@@ -34,7 +34,7 @@ function Register() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/register",
+        "http://localhost:4000/registerCompanies",
         {
           ...values,
         },
@@ -47,7 +47,7 @@ function Register() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          navigate("/");
+          navigate("/company");
         }
       }
     } catch (ex) {

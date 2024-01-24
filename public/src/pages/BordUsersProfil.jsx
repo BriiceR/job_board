@@ -5,13 +5,12 @@ import { toast, ToastContainer } from "react-toastify";
 import HeaderUsers from "../components/HeaderUsers";
 import { verifyUser, logOut } from "../utils/utilsAuth";
 
-export default function BordUsers() {
+export default function BordUsersProfil() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies([]);
 
     useEffect(() => {
         verifyUser(cookies, navigate, removeCookie, toast);
-        console.log("User verified");
     }, [cookies, navigate, removeCookie, toast]);
   
     const handleLogout = () => {
@@ -24,11 +23,10 @@ export default function BordUsers() {
         <HeaderUsers OnClick={handleLogout}/>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <div style={{ backgroundColor: "black", height: "20rem", width: "96vw", border: "3px solid white", borderRadius: "1rem"}}>
-            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Liste des annonces</h1>
+            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Profil</h1>
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-right" />
     </>
   );
 }

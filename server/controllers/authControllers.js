@@ -1,4 +1,5 @@
 const User = require("../model/authModel");
+const Company = require("../model/companyModel");
 const jwt = require("jsonwebtoken");
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -61,6 +62,39 @@ module.exports.login = async (req, res) => {
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id, status: true });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.json({ errors, status: false });
+  }
+};
+
+module.exports.registerCompany = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const company = await Company.create({ email, password });
+    const token = createToken(company._id);
+
+    res.cookie("jwt", token, {
+      withCredentials: true,
+      httpOnly: false,
+      maxAge: maxAge * 1000,
+    });
+
+    res.status(201).json({ company: company._id, created: true });
+  } catch (err) {
+    console.log(err);
+    const errors = handleErrors(err);
+    res.json({ errors, created: false });
+  }
+};
+
+module.exports.loginCompany = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const company = await Company.login(email, password);
+    const token = createToken(company._id);
+    res.cookie("jwt", token, { httpOnly: false, maxAge: maxAge * 1000 });
+    res.status(200).json({ company: company._id, status: true });
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, status: false });

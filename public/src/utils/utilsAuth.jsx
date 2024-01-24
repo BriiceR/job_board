@@ -29,6 +29,35 @@ export const verifyUser = async (cookies, navigate, removeCookie, toast) => {
     }
 };
 
+export const verifyCompany = async (cookies, navigate, removeCookie, toast) => {
+    if (!cookies.jwt) {
+        navigate("/loginCompanies");
+    } else {
+        try {
+            const { data } = await axios.post(
+                "http://localhost:4000/companies",
+                {},
+                {
+                    withCredentials: true,
+                }
+            );
+            // console.log(data);
+            if (!data.status) {
+                removeCookie("jwt");
+                navigate("/loginCompanies");
+            } else {
+                toast(`Hi ${data.company}`, {
+                    theme: "dark",
+                });
+            }
+        } catch (error) {
+            console.error("Error verifying user:", error);
+            removeCookie("jwt");
+            navigate("/loginCompanies");
+        }
+    }
+};
+
 export const logOut = (removeCookie, navigate) => {
     removeCookie("jwt");
     navigate("/homePage");
