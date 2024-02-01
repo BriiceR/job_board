@@ -11,6 +11,16 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is Required"],
   },
+  name: {
+    type: String,
+    default: "",
+  },
+  jobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
+    },
+  ],
 });
 
 companySchema.pre("save", async function (next) {
