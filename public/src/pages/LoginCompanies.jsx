@@ -12,7 +12,7 @@ function LoginCompanies() {
 
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/loginCompanies");
+      navigate("/companies");
     }
   }, [cookies, navigate]);
 

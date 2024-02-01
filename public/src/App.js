@@ -13,6 +13,7 @@ import BordUsersCand from "./pages/BordUsersCand";
 import BordCompanies from "./pages/BordCompanies";
 import BordCompaniesProfil from "./pages/BordCompaniesProfil";
 import RegisterAdmin from "./pages/RegisterAdmin";
+import BordAdmin from "./pages/BordAdmin";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Route exact path="/cand" element={<BordUsersCand />} />
         <Route exact path="/company" element={<BordCompanies />} />
         <Route exact path="/company/profil" element={<BordCompaniesProfil />} />
+        <Route exact path="/admin" element={<BordAdmin />} />
       </Routes>
     </BrowserRouter>
   );

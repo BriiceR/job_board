@@ -12,7 +12,7 @@ function LoginAdmin() {
 
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/");
+      navigate("/admin");
     }
   }, [cookies, navigate]);
 
@@ -27,7 +27,7 @@ function LoginAdmin() {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/loginUsers",
+        "http://localhost:4000/loginAdmin",
         { ...values },
         { withCredentials: true }
       );
@@ -40,7 +40,7 @@ function LoginAdmin() {
         } else {
           // Authentification réussie, stocker le token
           setCookie("jwt", data.token, { path: "/", httpOnly: true });
-          navigate("/");
+          navigate("/admin");
         }
       }
     } catch (ex) {

@@ -12,7 +12,7 @@ function RegisterAdmin() {
 
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/loginAdmin");
+      navigate("/admin");
     }
   }, [cookies, navigate]);
 
@@ -34,7 +34,7 @@ function RegisterAdmin() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/registerCompanies",
+        "http://localhost:4000/registerAdmin",
         {
           ...values,
         },
@@ -47,7 +47,7 @@ function RegisterAdmin() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          navigate("/company");
+          navigate("/admin");
         }
       }
     } catch (ex) {
