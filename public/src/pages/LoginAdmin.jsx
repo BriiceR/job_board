@@ -74,6 +74,9 @@ function LoginAdmin() {
           />
         </DivForm>
         <AdminButton type="submit">Connexion</AdminButton>
+        <span>
+          Pas de compte ?<Link style={{textDecoration: "none", color: "#525050"}} to="/registerAdmin"> S'enregistrer </Link>
+        </span>
       </Form>
       <ToastContainer />
     </ContainerAdmin>

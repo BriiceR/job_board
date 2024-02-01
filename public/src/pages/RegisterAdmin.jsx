@@ -3,16 +3,16 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
-import { CompanyButton, ContainerCompanies, DivForm, TitleForm, Form, InputForm, SuperContainer } from "../utils/utils";
+import { AdminButton, ContainerAdmin, DivForm, TitleForm, Form, InputForm, SuperContainer } from "../utils/utils";
 import HeaderLogin from "../components/HeaderLogin";
 
-function RegisterCompanies() {
+function RegisterAdmin() {
   const [cookies] = useCookies(["cookie-name"]);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/companies");
+      navigate("/loginAdmin");
     }
   }, [cookies, navigate]);
 
@@ -59,7 +59,7 @@ function RegisterCompanies() {
     <>
     <HeaderLogin />
     <SuperContainer>
-    <ContainerCompanies>
+    <ContainerAdmin>
       <TitleForm>S'inscrire</TitleForm>
       <Form onSubmit={(e) => handleSubmit(e)}>
         <DivForm>
@@ -95,16 +95,16 @@ function RegisterCompanies() {
             }
           />
         </DivForm>
-        <CompanyButton type="submit">S'inscrire</CompanyButton>
+        <AdminButton type="submit">S'inscrire</AdminButton>
         <span>
-          Déjà un compte ?<Link style={{textDecoration: "none", color: "#F24242"}} to="/loginCompanies"> Se connecter</Link>
+          Déjà un compte ?<Link style={{textDecoration: "none", color: "#525050"}} to="/loginAdmin"> Se connecter</Link>
         </span>
       </Form>
       <ToastContainer />
-    </ContainerCompanies>
+    </ContainerAdmin>
     </SuperContainer>
     </>
   );
 }
 
-export default RegisterCompanies;
+export default RegisterAdmin;
