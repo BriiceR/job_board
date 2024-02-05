@@ -23,7 +23,7 @@ export default function BordUsersCand() {
         <HeaderUsers OnClick={handleLogout}/>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <div style={{ backgroundColor: "black", height: "20rem", width: "96vw", border: "3px solid white", borderRadius: "1rem"}}>
-            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Liste des candidatures</h1>
+            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Mes Candidatures</h1>
           </div>
         </div>
       </div>

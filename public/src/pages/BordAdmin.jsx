@@ -11,7 +11,7 @@ export default function BordAdmin() {
 
     useEffect(() => {
         verifyAdmin(cookies, navigate, removeCookie, toast);
-        console.log("User verified");
+        console.log("Admin verified");
     }, [cookies, navigate, removeCookie, toast]);
   
     const handleLogout = () => {

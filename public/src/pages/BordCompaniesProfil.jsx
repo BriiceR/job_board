@@ -23,7 +23,7 @@ export default function BordCompaniesProfil() {
         <HeaderCompanies OnClick={handleLogout}/>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <div style={{ backgroundColor: "black", height: "20rem", width: "96vw", border: "3px solid white", borderRadius: "1rem"}}>
-            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Profil</h1>
+            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Mon Profil</h1>
           </div>
         </div>
       </div>

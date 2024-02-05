@@ -40,18 +40,20 @@ module.exports.checkCompany = async (req, res, next) => {
           next();
         } else {
           const company = await Company.findById(decodedToken.id);
-
+          // console.log("Company found:");
           if (company) {
             res.json({ status: true, company: company.email });
+            // console.log("ok company")
           } else {
             res.json({ status: false });
           }
 
-          next();
+        next();
         }
       }
     );
   } else {
+    console.log("No token found");
     res.json({ status: false });
     next();
   }
@@ -86,3 +88,4 @@ module.exports.checkAdmin = async (req, res, next) => {
     next();
   }
 };
+

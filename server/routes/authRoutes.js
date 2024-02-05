@@ -1,5 +1,7 @@
 const { register, login, registerCompany, loginCompany, registerAdmin, loginAdmin } = require("../controllers/authControllers");
+const { createJob } = require("../controllers/jobControllers");
 const { checkUser, checkCompany, checkAdmin } = require("../middlewares/authMiddleware");
+const { checkCompanyId } = require("../middlewares/jobMiddleware");
 
 const router = require("express").Router();
 
@@ -18,4 +20,6 @@ router.post("/admin", checkAdmin);
 router.post("/registerAdmin", registerAdmin);
 router.post("/loginAdmin", loginAdmin);
 
+// jobs routes
+router.post("/createJob", checkCompanyId, createJob );
 module.exports = router;

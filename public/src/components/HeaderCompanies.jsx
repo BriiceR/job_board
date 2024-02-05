@@ -9,7 +9,7 @@ function HeaderCompanies( { OnClick } ) {
             <Logo onClick={() => window.location.href = "/company"}>indead</Logo>
             <div style={{display: "flex", alignItems: "center"}}>
                 <LinkHeader onClick={() => window.location.href = "/company/profil"}>Profil</LinkHeader>
-                <LinkHeader onClick={() => window.location.href = "/company/cand"}>Mes Annonces</LinkHeader>
+                <LinkHeader onClick={() => window.location.href = "/company/jobs"}>Mes Annonces</LinkHeader>
                 <Logout onClick={OnClick}>Déconnexion</Logout>
             </div>
         </DivIcon>

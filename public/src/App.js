@@ -16,7 +16,7 @@ import RegisterAdmin from "./pages/RegisterAdmin";
 import BordAdmin from "./pages/BordAdmin";
 import BordAdminCand from "./pages/BordAdminCand";
 import BordAdminComp from "./pages/BordAdminComp";
-import BordCompanyCand from "./pages/BordCompanyCand";
+import BordCompanyJob from "./pages/BordCompanyJob";
 
 export default function App() {
   return (
@@ -43,7 +43,7 @@ export default function App() {
         // bord company
         <Route exact path="/company" element={<BordCompanies />} />
         <Route exact path="/company/profil" element={<BordCompaniesProfil />} />
-        <Route exact path="/company/cand" element={<BordCompanyCand />} />
+        <Route exact path="/company/jobs" element={<BordCompanyJob />} />
 
         // bord admin
         <Route exact path="/admin" element={<BordAdmin />} />
