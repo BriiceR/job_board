@@ -16,6 +16,10 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    
+  },
   applications: [
     {
       type: mongoose.Schema.Types.ObjectId,

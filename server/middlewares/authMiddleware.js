@@ -42,7 +42,8 @@ module.exports.checkCompany = async (req, res, next) => {
           const company = await Company.findById(decodedToken.id);
           // console.log("Company found:");
           if (company) {
-            res.json({ status: true, company: company.email });
+            req.company = company;
+            res.json({ status: true, company: company.email, id: company._id });
             // console.log("ok company")
           } else {
             res.json({ status: false });

@@ -41,11 +41,12 @@ export const verifyCompany = async (cookies, navigate, removeCookie, toast) => {
                     withCredentials: true,
                 }
             );
-            console.log(data);
+            // console.log(data);
             if (!data.status) {
                 removeCookie("jwt");
                 navigate("/loginCompanies");
             } else {
+                const companyId = data.company._id;
                 toast(`Hi ${data.company}`, {
                     theme: "dark",
                 });
