@@ -9,10 +9,12 @@ import axios from "axios";
 export default function BordCompanyJob() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies([]);
+  const [companyId, setCompanyId] = useState(null);
+  
 
     useEffect(() => {
-        verifyCompany(cookies, navigate, removeCookie, toast);
-    }, [cookies, navigate, removeCookie, toast]);
+        verifyCompany(cookies, navigate, removeCookie, toast, setCompanyId);
+    }, [cookies, navigate, removeCookie, setCompanyId]);
   
     const handleLogout = () => {
       logOut(removeCookie, navigate);
@@ -51,11 +53,9 @@ export default function BordCompanyJob() {
   };
 
   const [jobs, setJobs] = useState([]);
-  // const [companyId, setCompanyId] = useState(null);
-  
-  const fetchJobs = async ( ) => {
-    const companyId = "65bbbf01ec632b12a3c16dc3"
 
+  const fetchJobs = async ( ) => {
+    // console.log(companyId);
     try {
       const { data } = await axios.get(`http://localhost:4000/jobs/company/${companyId}`, {
         withCredentials: true,
@@ -67,11 +67,12 @@ export default function BordCompanyJob() {
     }
   };
 
-  
-
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    // console.log("companyId:", companyId);
+    if (companyId !== null) {
+      fetchJobs();
+    }
+  }, [companyId]);
 
   return (
     <>
@@ -83,8 +84,9 @@ export default function BordCompanyJob() {
 
           <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Créer une Annonce</h1>
             <form onSubmit={handleSubmit}>
-              <div style={{ display: "flex", flexDirection: "row", alignItems: "start", padding: "1rem" }}>
-                <label htmlFor="title" style={{ color: "white" }}>Titre :</label>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "1rem", borderBottom: "1px solid white" }}>
+                <div>
+                <label htmlFor="title" style={{ color: "white",  paddingLeft: "1rem", paddingRight: "1rem"  }}>Titre :</label>
                 <input
                   type="text"
                   id="title"
@@ -94,16 +96,18 @@ export default function BordCompanyJob() {
                   required
                 />
 
-                <label htmlFor="description" style={{ color: "white" }}>Description :</label>
-                <textarea
+                <label htmlFor="description" style={{ color: "white",  paddingLeft: "1rem", paddingRight: "1rem"  }}>Description :</label>
+                <input
                   id="description"
                   name="description"
                   value={jobData.description}
                   onChange={handleInputChange}
                   required
                 />
-
-                <button type="submit">Créer l'annonce</button>
+                </div>
+                <div style={{ paddingRight: "1rem"  }}>
+                <button type="submit" style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Créer l'annonce</button>
+                </div>
               </div>
             </form>
 

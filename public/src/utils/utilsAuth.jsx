@@ -29,7 +29,7 @@ export const verifyUser = async (cookies, navigate, removeCookie, toast) => {
     }
 };
 
-export const verifyCompany = async (cookies, navigate, removeCookie, toast) => {
+export const verifyCompany = async (cookies, navigate, removeCookie, toast, setCompanyId) => {
     if (!cookies.jwt) {
         navigate("/loginCompanies");
     } else {
@@ -41,12 +41,12 @@ export const verifyCompany = async (cookies, navigate, removeCookie, toast) => {
                     withCredentials: true,
                 }
             );
-            // console.log(data);
+            console.log(data.id);
             if (!data.status) {
                 removeCookie("jwt");
                 navigate("/loginCompanies");
             } else {
-                const companyId = data.company._id;
+                setCompanyId(data.id);
                 toast(`Hi ${data.company}`, {
                     theme: "dark",
                 });
