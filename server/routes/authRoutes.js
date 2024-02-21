@@ -1,4 +1,4 @@
-const { register, login, registerCompany, loginCompany, registerAdmin, loginAdmin } = require("../controllers/authControllers");
+const { register, login, registerCompany, loginCompany, registerAdmin, loginAdmin, updateCompanyName } = require("../controllers/authControllers");
 const { createJob, getAllJobs, getJobsByCompanyId, getJobById } = require("../controllers/jobControllers");
 const { checkUser, checkCompany, checkAdmin } = require("../middlewares/authMiddleware");
 const { checkCompanyId } = require("../middlewares/jobMiddleware");
@@ -14,6 +14,8 @@ router.post("/loginUsers", login);
 router.post("/companies", checkCompany);
 router.post("/registerCompanies", registerCompany);
 router.post("/loginCompanies", loginCompany);
+router.put("/companies/:companyId/updateName", updateCompanyName); 
+
 
 // admin routes
 router.post("/admin", checkAdmin);

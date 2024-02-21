@@ -10,11 +10,13 @@ export default function BordCompanyJob() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const [companyId, setCompanyId] = useState(null);
+  const [companyName, setCompanyName] = useState(null);
+  const [companyMail, setCompanyMail] = useState(null);
   
 
     useEffect(() => {
-        verifyCompany(cookies, navigate, removeCookie, toast, setCompanyId);
-    }, [cookies, navigate, removeCookie, setCompanyId]);
+        verifyCompany(cookies, navigate, removeCookie, toast, setCompanyId, setCompanyName, setCompanyMail);
+    }, [cookies, navigate, removeCookie, setCompanyId, setCompanyName, setCompanyMail]);  
   
     const handleLogout = () => {
       logOut(removeCookie, navigate);
@@ -68,8 +70,8 @@ export default function BordCompanyJob() {
   };
 
   useEffect(() => {
-    // console.log("companyId:", companyId);
-    if (companyId !== null) {
+    console.log("companyId:", companyId);
+    if (companyId !== null ) {
       fetchJobs();
     }
   }, [companyId]);

@@ -40,7 +40,7 @@ module.exports.createJob = async (req, res) => {
 module.exports.getAllJobs = async (req, res) => {
     try {
         // Récupérer tous les emplois depuis la base de données
-        const jobs = await Job.find();
+        const jobs = await Job.find().populate("company", "name");
 
         // Envoyer une réponse avec la liste des emplois
         res.status(200).json({ success: true, jobs });

@@ -29,7 +29,7 @@ export const verifyUser = async (cookies, navigate, removeCookie, toast) => {
     }
 };
 
-export const verifyCompany = async (cookies, navigate, removeCookie, toast, setCompanyId) => {
+export const verifyCompany = async (cookies, navigate, removeCookie, toast, setCompanyId, setCompanyName, setCompanyMail) => {
     if (!cookies.jwt) {
         navigate("/loginCompanies");
     } else {
@@ -41,18 +41,20 @@ export const verifyCompany = async (cookies, navigate, removeCookie, toast, setC
                     withCredentials: true,
                 }
             );
-            console.log(data.id);
+            console.log(data);
             if (!data.status) {
                 removeCookie("jwt");
                 navigate("/loginCompanies");
             } else {
                 setCompanyId(data.id);
+                setCompanyName(data.name);
+                setCompanyMail(data.company);
                 toast(`Hi ${data.company}`, {
                     theme: "dark",
                 });
             }
         } catch (error) {
-            console.error("Error verifying user:", error);
+            console.error("Error verifying company:", error);
             removeCookie("jwt");
             navigate("/loginCompanies");
         }

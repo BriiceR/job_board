@@ -43,7 +43,7 @@ module.exports.checkCompany = async (req, res, next) => {
           // console.log("Company found:");
           if (company) {
             req.company = company;
-            res.json({ status: true, company: company.email, id: company._id });
+            res.json({ status: true, company: company.email, id: company._id, name: company.name });
             // console.log("ok company")
           } else {
             res.json({ status: false });

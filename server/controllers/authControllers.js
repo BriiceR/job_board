@@ -102,6 +102,19 @@ module.exports.loginCompany = async (req, res) => {
   }
 };
 
+module.exports.updateCompanyName = async (req, res) => {
+  const { name } = req.body;
+  const { companyId } = req.params;
+  // console.log(name, companyId);
+  try {
+    const company = await Company.findByIdAndUpdate(companyId, { name });
+    res.status(200).json({ company: company._id, status: true, success: true });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.json({ errors, status: false });
+  }
+}
+
 module.exports.registerAdmin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
