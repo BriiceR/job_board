@@ -1,5 +1,5 @@
 const { register, login, registerCompany, loginCompany, registerAdmin, loginAdmin, updateCompanyName } = require("../controllers/authControllers");
-const { createJob, getAllJobs, getJobsByCompanyId, getJobById } = require("../controllers/jobControllers");
+const { createJob, getAllJobs, getJobsByCompanyId, getJobById, deleteJob, updateJob } = require("../controllers/jobControllers");
 const { checkUser, checkCompany, checkAdmin } = require("../middlewares/authMiddleware");
 const { checkCompanyId } = require("../middlewares/jobMiddleware");
 
@@ -30,5 +30,9 @@ router.get("/jobs", getAllJobs);
 router.get("/jobs/company/:companyId", checkCompanyId, getJobsByCompanyId);
 // Route pour obtenir un emploi par ID
 router.get("/jobs/:id", getJobById);
+// Supprimer une annonce
+router.delete('/deleteJob/:jobId', deleteJob);
+// Modifier une annonce
+router.put("/jobs/:id", updateJob);
 
 module.exports = router;

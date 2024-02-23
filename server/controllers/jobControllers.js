@@ -102,3 +102,46 @@ module.exports.getJobById = async (req, res) => {
         res.status(500).json({ success: false, error: "Erreur lors de la recherche de l'emploi par ID" });
     }
 };
+
+module.exports.deleteJob = async (req, res) => {
+    const { jobId } = req.params;
+    
+    try {
+      // Recherche de l'annonce par ID et suppression
+        const job = await Job.findByIdAndDelete(jobId);
+        if (!job) {
+        return res.status(404).json({ success: false, message: "Annonce non trouvée" });
+        }
+      // Si l'annonce est supprimée avec succès
+        res.status(200).json({ success: true, message: "Annonce supprimée avec succès" });
+    } catch (error) {
+        console.error("Erreur lors de la suppression de l'annonce :", error);
+        res.status(500).json({ success: false, message: "Erreur lors de la suppression de l'annonce" });
+    }
+};
+
+module.exports.updateJob = async (req, res) => {
+    const { id } = req.params; // ID de l'annonce à mettre à jour
+    const { title, description } = req.body; // Nouvelles données de l'annonce
+    // console.log(id);
+    // console.log(title, description);
+    try {
+        // Vérifie si l'annonce existe
+        const job = await Job.findById(id);
+        // console.log(job);
+        if (!job) {
+            return res.status(404).json({ success: false, message: 'Annonce non trouvée'  });
+        }
+
+        // Met à jour les champs de l'annonce
+        job.title = title;
+        job.description = description;
+
+        // Sauvegarde les modifications dans la base de données
+        const updatedJob = await job.save();
+        res.status(200).json({ success: true, message: "Annonce mis à jour avec succès", updatedJob });
+    } catch (error) {
+        // En cas d'erreur, renvoie une réponse avec le code d'erreur et un message
+        res.status(500).json({ success: false, message: "Erreur lors de la mise à jour de l'annonce" });
+    }
+};

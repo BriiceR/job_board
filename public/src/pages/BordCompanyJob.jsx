@@ -14,12 +14,12 @@ export default function BordCompanyJob() {
   const [companyMail, setCompanyMail] = useState(null);
   
 
-    useEffect(() => {
-        verifyCompany(cookies, navigate, removeCookie, toast, setCompanyId, setCompanyName, setCompanyMail);
-    }, [cookies, navigate, removeCookie, setCompanyId, setCompanyName, setCompanyMail]);  
-  
-    const handleLogout = () => {
-      logOut(removeCookie, navigate);
+  useEffect(() => {
+    verifyCompany(cookies, navigate, removeCookie, toast, setCompanyId, setCompanyName, setCompanyMail);
+  }, [cookies, navigate, removeCookie, setCompanyId, setCompanyName, setCompanyMail]);  
+
+  const handleLogout = () => {
+    logOut(removeCookie, navigate);
   };
 
   const [jobData, setJobData] = useState({ title: "", description: "" });
@@ -43,7 +43,6 @@ export default function BordCompanyJob() {
         });
         setJobData({ title: "", description: "" });
         fetchJobs();
-        // Vous pouvez rediriger l'utilisateur vers la liste des annonces ou faire toute autre action ici
       } else {
         toast.error("Erreur lors de la création de l'annonce");
         console.log("Error creating job:");
@@ -56,25 +55,119 @@ export default function BordCompanyJob() {
 
   const [jobs, setJobs] = useState([]);
 
-  const fetchJobs = async ( ) => {
-    // console.log(companyId);
+  const fetchJobs = async () => {
     try {
       const { data } = await axios.get(`http://localhost:4000/jobs/company/${companyId}`, {
         withCredentials: true,
       });
-      setJobs(data.jobs);  // Mettez à jour le state avec les annonces récupérées
-      // console.log(data.jobs);
+      setJobs(data.jobs);
     } catch (error) {
       console.error("Erreur lors de la récupération des annonces:", error);
     }
   };
 
+  const handleDelete = async (jobId) => {
+    try {
+      const { data } = await axios.delete(`http://localhost:4000/deleteJob/${jobId}`, { withCredentials: true });
+      if (data.success) {
+        toast.success("Annonce supprimée avec succès!", { theme: "dark" });
+        fetchJobs();
+      } else {
+        toast.error("Erreur lors de la suppression de l'annonce");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'annonce:", error);
+      toast.error("Erreur lors de la suppression de l'annonce");
+    }
+  };
+
+  const handleModify = (jobId) => {
+    const job = jobs.find((job) => job._id === jobId);
+    setEditingJob(job._id); 
+};
+
+  
+  const [editingJob, setEditingJob] = useState(null); 
+  // const [saveAndEditCounter, setSaveAndEditCounter] = useState(0);
+
+  const handleCancelEdit = () => {
+    setEditingJob(null); 
+    setJobData({ title: "", description: "" });
+    
+  };
+
+  const handleSaveEdit = async (editingJob, JobData) => {
+    console.log(editingJob); 
+    // setSaveAndEditCounter(prevCounter => prevCounter + 1);
+    // console.log(saveAndEditCounter);
+    try {
+      const { data } = await axios.put(`http://localhost:4000/jobs/${editingJob}`, JobData, { withCredentials: true });
+      if (data.success) {
+        toast.success("Annonce modifiée avec succès!", { theme: "dark" });
+        fetchJobs();
+        setEditingJob(null); 
+        setJobData({ title: "", description: "" });
+      } else {
+        toast.error("Erreur lors de la modification de l'annonce");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la modification de l'annonce:", error);
+      toast.error("Erreur lors de la modification de l'annonce");
+    }
+};
+
+  
+
   useEffect(() => {
-    console.log("companyId:", companyId);
     if (companyId !== null ) {
       fetchJobs();
     }
   }, [companyId]);
+
+  // Affichage conditionnel du formulaire de modification
+  if (editingJob) {
+    return (
+      <div style={{ backgroundColor: "black", width: "100vw" }}>
+        <HeaderCompanies OnClick={handleLogout} />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ backgroundColor: "black", width: "96vw", border: "3px solid white", borderRadius: "1rem", marginBottom: "2rem", minHeight: "100vh" }}>
+            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem" }}>Modifier une Annonce</h1>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+            }}>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "1rem", borderBottom: "1px solid white" }}>
+                <div>
+                  <label htmlFor="title" style={{ color: "white", paddingLeft: "1rem", paddingRight: "1rem" }}>Titre :</label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={jobData.title}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label htmlFor="description" style={{ color: "white", paddingLeft: "1rem", paddingRight: "1rem" }}>Description :</label>
+                  <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={jobData.description}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div style={{ paddingRight: "1rem" }}>
+                <button onClick={() => handleSaveEdit(editingJob, jobData)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white", padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Enregistrer les modifications</button>
+
+                  <button onClick={handleCancelEdit} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white", padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Annuler</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -82,9 +175,7 @@ export default function BordCompanyJob() {
         <HeaderCompanies OnClick={handleLogout} />
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <div style={{ backgroundColor: "black", width: "96vw", border: "3px solid white", borderRadius: "1rem", marginBottom: "2rem", minHeight: "100vh"}}>
-
-
-          <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Créer une Annonce</h1>
+            <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Créer une Annonce</h1>
             <form onSubmit={handleSubmit}>
               <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "1rem", borderBottom: "1px solid white" }}>
                 <div>
@@ -125,18 +216,18 @@ export default function BordCompanyJob() {
                     <p style={{ color: "white", paddingLeft: "1rem" }}>Date : {new Date(job.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div style={{ paddingRight: "1rem"  }}>
-                    <button style={{ color: "black", marginLeft: "1rem", backgroundColor: "white", padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Modifier</button>
-                    <button style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Supprimer</button>
+                  <button onClick={() => handleModify(job._id)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Modifier</button>
+
+
+                    <button onClick={() => handleDelete(job._id)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Supprimer</button>
                   </div>
                 </li>
               ))}
             </ul>
-    
-
           </div>
         </div>
       </div>
-    <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" />
     </>
   );
 }

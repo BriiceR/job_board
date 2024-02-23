@@ -53,12 +53,8 @@ export default function BordCompanies() {
                     <h3 style={{ color: "white", margin: 0 }}>{job.title}</h3>
                     <p style={{ color: "white", margin: 0 }}>{job.description}</p>
                     <p style={{ color: "white", margin: 0 }}>Date : {new Date(job.createdAt).toLocaleDateString()}</p>
-                    <p style={{ color: "white", margin: 0 }}>Entreprise : {job.company.name}</p>
+                    <p style={{ color: "white", margin: 0 }}>Entreprise : { job.company.name ? job.company.name : "Anonyme"}</p>
                   </div>
-                  {/* <div>
-                    <button style={{ color: "black", marginLeft: "1rem", backgroundColor: "white", padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Modifier</button>
-                    <button style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Supprimer</button>
-                  </div> */}
                 </li>
               ))}
             </ul>

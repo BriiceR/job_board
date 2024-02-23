@@ -41,7 +41,7 @@ export const verifyCompany = async (cookies, navigate, removeCookie, toast, setC
                     withCredentials: true,
                 }
             );
-            console.log(data);
+            // console.log(data);
             if (!data.status) {
                 removeCookie("jwt");
                 navigate("/loginCompanies");
