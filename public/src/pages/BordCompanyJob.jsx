@@ -208,7 +208,7 @@ export default function BordCompanyJob() {
 
             
             <ul>
-              {jobs.map((job) => (
+            {jobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((job) => (
                 <li key={job._id} style={{ display: "flex", justifyContent: "space-between",  padding: "1rem", borderBottom: "1px solid white"}}>
                   <div style={{ display: "flex" }}>
                     <h3 style={{ color: "white", paddingLeft: "1rem" }}>{job.title}</h3>

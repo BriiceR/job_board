@@ -147,3 +147,16 @@ module.exports.loginAdmin = async (req, res) => {
     res.json({ errors, status: false });
   }
 };
+
+module.exports.updateUser = async (req, res) => {
+  const { firstName, lastName, diploma } = req.body;
+  const { userId } = req.params;
+  // console.log(firstName, lastName, diploma, userId);
+  try {
+    const user = await User.findByIdAndUpdate(userId, { firstName, lastName, diploma });
+    res.status(200).json({ user: user._id, status: true, success: true });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.json({ errors, status: false });
+  }
+}

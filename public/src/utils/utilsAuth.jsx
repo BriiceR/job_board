@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export const verifyUser = async (cookies, navigate, removeCookie, toast) => {
+export const verifyUser = async (cookies, navigate, removeCookie, toast, setUserId, setFirstName, setLastName, setDiploma, setUserMail ) => {
     if (!cookies.jwt) {
         navigate("/loginUsers");
     } else {
@@ -13,10 +13,16 @@ export const verifyUser = async (cookies, navigate, removeCookie, toast) => {
                     withCredentials: true,
                 }
             );
+            // console.log(data);
             if (!data.status) {
                 removeCookie("jwt");
                 navigate("/loginUsers");
             } else {
+                setUserId(data.id);
+                setFirstName(data.firstName);
+                setLastName(data.lastName);
+                setDiploma(data.diploma);
+                setUserMail(data.user);
                 toast(`Hi ${data.user}`, {
                     theme: "dark",
                 });

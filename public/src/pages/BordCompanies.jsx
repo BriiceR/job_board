@@ -47,7 +47,7 @@ export default function BordCompanies() {
           <div style={{ backgroundColor: "black", height: "100%", width: "96vw", border: "3px solid white", borderRadius: "1rem", padding: "1rem"}}>
             <h1 style={{ color: "white", textAlign: "center", paddingTop: "1rem"}}>Annonces</h1>
             <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-              {jobs.map((job) => (
+            {jobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((job) => (
                 <li key={job._id} style={{ display: "flex", justifyContent: "space-between",  padding: "1rem", borderBottom: "1px solid white"}}>
                   <div>
                     <h3 style={{ color: "white", margin: 0 }}>{job.title}</h3>
