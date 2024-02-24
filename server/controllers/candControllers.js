@@ -62,7 +62,26 @@ module.exports.getCandidature = async (req, res) => {
         console.error("Erreur lors de la sélection de la candidature :", error);
         res.status(500).json({ success: false, message: "Erreur serveur interne" });
     }
+};
+
+module.exports.updateCandidature = async (req, res) => {
+    const { candidatureId } = req.params;
+    const { status } = req.body;
+
+    try {
+        const updatedCandidature = await Cand.findByIdAndUpdate(candidatureId, { status }, { new: true });
+
+        if (!updatedCandidature) {
+            return res.status(404).json({ success: false, message: "Candidature non trouvée" });
+        }
+
+        res.status(200).json({ success: true, candidature: updatedCandidature });
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour de la candidature :", error);
+        res.status(500).json({ success: false, message: "Erreur serveur interne" });
     }
+};
+
 
 
 

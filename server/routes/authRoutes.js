@@ -1,6 +1,6 @@
 const { register, login, registerCompany, loginCompany, registerAdmin, loginAdmin, updateCompanyName, updateUser, getUserById } = require("../controllers/authControllers");
 const { createJob, getAllJobs, getJobsByCompanyId, getJobById, deleteJob, updateJob, updateJobWithCandidature } = require("../controllers/jobControllers");
-const { handleApply, getCandidatureStatus, getCandidature } = require("../controllers/candControllers");
+const { handleApply, getCandidatureStatus, getCandidature, updateCandidature } = require("../controllers/candControllers");
 const { checkUser, checkCompany, checkAdmin } = require("../middlewares/authMiddleware");
 const { checkCompanyId } = require("../middlewares/jobMiddleware");
 
@@ -44,7 +44,9 @@ router.post("/candidatures", handleApply);
 router.get("/candidatures/:jobId/:userId/status", getCandidatureStatus);
 // Route pour mettre à jour le statut de la candidature avec l'ID du candidat
 router.put('/jobs/:id/updateWithCandidature/:candidatureId', updateJobWithCandidature);
-
+// route pour obtenir une candidature
 router.get('/candidatures/:candidatureId', getCandidature);
+// route pour mettre a jour une candidature
+router.put('/candidatures/:candidatureId', updateCandidature);
 
 module.exports = router;

@@ -60,7 +60,7 @@ export default function BordCompanyJob() {
       const { data } = await axios.get(`http://localhost:4000/jobs/company/${companyId}`, {
         withCredentials: true,
       });
-      console.log(data.jobs);
+      // console.log(data.jobs);
       setJobs(data.jobs);
     } catch (error) {
       console.error("Erreur lors de la récupération des annonces:", error);
@@ -119,6 +119,7 @@ export default function BordCompanyJob() {
 
 const [applicationInfo, setApplicationInfo] = useState();
 const [applicationJobId, setApplicationJobId] = useState(null);
+// console.log(applicationInfo);
 
 const handleClick = async (applications, jobId) => {
   if (applicationJobId === jobId) {
@@ -130,21 +131,75 @@ const handleClick = async (applications, jobId) => {
         return axios.get(`http://localhost:4000/candidatures/${applicationId}`);
       });
       const responses = await Promise.all(promises);
-      console.log(responses);
+      const candidatures = responses.map(response => response.data.candidature);
+      // console.log(candidatures);
       const userIds = responses.map(response => response.data.candidature.user);
-      console.log(userIds);
+      // console.log(userIds);
+      const candidatureIds = responses.map(response => response.data.candidature._id); // Obtenez les identifiants de candidature
+      const statuses = responses.map(response => response.data.candidature.status);
       const userPromises = userIds.map(userId => {
         return axios.get(`http://localhost:4000//${userId}`);
       });
       const userResponses = await Promise.all(userPromises);
       const users = userResponses.map(response => response.data);
-      console.log("Users:", users);
-      setApplicationInfo(users);
+      // console.log("Users:", users);
+      // Associez les utilisateurs aux candidatures correspondantes
+      const applicationsWithUsers = candidatureIds.map((candidatureId, index) => ({
+        candidatureId,
+        user: users[index],
+        status: statuses[index],
+      }));
+      setApplicationInfo(applicationsWithUsers);
       setApplicationJobId(jobId);
     } catch (error) {
       console.error("Erreur lors de la récupération des informations sur les candidats:", error);
       toast.error("Erreur lors de la récupération des informations sur les candidats");
     }
+  }
+};
+
+
+const handleAccept = async (candidatureId) => {
+  try {
+    const response = await axios.put(`http://localhost:4000/candidatures/${candidatureId}`, { status: "accepted" });
+    if (response.data.success) {
+      toast.success("Candidature acceptée avec succès!");
+      
+      const updatedApplicationInfo = applicationInfo.map(application => {
+        if (application.candidatureId === candidatureId) {
+          return { ...application, status: "accepted" };
+        }
+        return application;
+      });
+      setApplicationInfo(updatedApplicationInfo);
+    } else {
+      toast.error("Erreur lors de l'acceptation de la candidature");
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'acceptation de la candidature:", error);
+    toast.error("Erreur lors de l'acceptation de la candidature");
+  }
+};
+
+
+const handleReject = async (candidatureId) => {
+  try {
+      const response = await axios.put(`http://localhost:4000/candidatures/${candidatureId}`, { status: "rejected" });
+      if (response.data.success) {
+          toast.success("Candidature refusée avec succès!");
+          const updatedApplicationInfo = applicationInfo.map(application => {
+            if (application.candidatureId === candidatureId) {
+              return { ...application, status: "rejected" };
+            }
+            return application;
+          });
+          setApplicationInfo(updatedApplicationInfo);
+      } else {
+          toast.error("Erreur lors du refus de la candidature");
+      }
+  } catch (error) {
+      console.error("Erreur lors du refus de la candidature:", error);
+      toast.error("Erreur lors du refus de la candidature");
   }
 };
 
@@ -264,9 +319,10 @@ const handleClick = async (applications, jobId) => {
         <ul>
           {applicationInfo.map((application, index) => (
             <li style={{ display: "flex", marginTop: "0.5rem"}}  key={index}>
-              <p style={{ color: "white", paddingLeft: "1rem" }}>{application.firstName} {application.lastName} ({application.diploma}) </p>
-              <button style={{ color: "white", marginLeft: "1rem", backgroundColor: "green",  padding: "0rem 0.2rem", borderRadius: "0.2rem", border: "1px solid green", cursor: "pointer" }} >accepter</button>
-              <button style={{ color: "white", marginLeft: "1rem", backgroundColor: "red",  padding: "0rem 0.2rem", borderRadius: "0.2rem", border: "1px solid red", cursor: "pointer" }}>refuser</button>
+              <p style={{ color: "white", paddingLeft: "1rem" }}>{application.user.firstName} {application.user.lastName} ({application.user.diploma}) </p>
+              <button onClick={() => handleAccept(application.candidatureId)} style={{ color: "white", marginLeft: "1rem", backgroundColor: "green",  padding: "0rem 0.2rem", borderRadius: "0.2rem", border: "1px solid green", cursor: "pointer" }} >accepter</button>
+              <button onClick={() => handleReject(application.candidatureId)} style={{ color: "white", marginLeft: "1rem", backgroundColor: "red",  padding: "0rem 0.2rem", borderRadius: "0.2rem", border: "1px solid red", cursor: "pointer" }}>refuser</button>
+              <p style={{ color: "white", paddingLeft: "1rem" }}> {application.status} </p>
             </li>
           ))}
         </ul>

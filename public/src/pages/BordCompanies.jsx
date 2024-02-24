@@ -29,7 +29,7 @@ export default function BordCompanies() {
       const response = await axios.get("http://localhost:4000/jobs");
       if (response.data.success) {
         setJobs(response.data.jobs);
-        console.log(response.data.jobs);
+        // console.log(response.data.jobs);
       } else {
         toast.error("Erreur lors de la récupération des annonces");
       }

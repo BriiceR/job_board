@@ -163,7 +163,7 @@ module.exports.updateUser = async (req, res) => {
 
 module.exports.getUserById = async (req, res) => {
   const { userId } = req.params;
-  console.log(req.params);
+  // console.log(req.params);
   try {
     const user = await User.findById(userId);
     res.status(200).json({ status: true, success: true, firstName: user.firstName, lastName: user.lastName, diploma: user.diploma });
