@@ -145,3 +145,28 @@ module.exports.updateJob = async (req, res) => {
         res.status(500).json({ success: false, message: "Erreur lors de la mise à jour de l'annonce" });
     }
 };
+
+module.exports.updateJobWithCandidature = async (req, res) => {
+    const { id, candidatureId } = req.params; // ID de l'annonce à mettre à jour
+    
+    try {
+      // Vérifie si l'annonce existe
+        const job = await Job.findById(id);
+        if (!job) {
+        return res.status(404).json({ success: false, message: 'Annonce non trouvée' });
+        }
+      // Vérifie si la candidature existe déjà dans la liste des candidatures de l'annonce
+        if (job.applications.includes(candidatureId)) {
+        return res.status(400).json({ success: false, message: 'La candidature existe déjà dans la liste des candidatures de cette annonce' });
+        }
+      // Ajoute l'ID de la candidature à la liste des candidatures de l'annonce
+        job.applications.push(candidatureId);
+      // Sauvegarde les modifications dans la base de données
+        const updatedJob = await job.save();
+        res.status(200).json({ success: true, message: "Annonce mise à jour avec succès avec l'ID de la candidature", updatedJob });
+    } catch (error) {
+      // En cas d'erreur, renvoie une réponse avec le code d'erreur et un message
+        console.error("Erreur lors de la mise à jour de l'annonce avec l'ID de la candidature:", error);
+        res.status(500).json({ success: false, message: "Erreur lors de la mise à jour de l'annonce avec l'ID de la candidature" });
+    }
+};

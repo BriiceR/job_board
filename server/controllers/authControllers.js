@@ -160,3 +160,15 @@ module.exports.updateUser = async (req, res) => {
     res.json({ errors, status: false });
   }
 }
+
+module.exports.getUserById = async (req, res) => {
+  const { userId } = req.params;
+  console.log(req.params);
+  try {
+    const user = await User.findById(userId);
+    res.status(200).json({ status: true, success: true, firstName: user.firstName, lastName: user.lastName, diploma: user.diploma });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.json({ errors, status: false });
+  }
+}

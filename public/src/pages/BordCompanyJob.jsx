@@ -60,6 +60,7 @@ export default function BordCompanyJob() {
       const { data } = await axios.get(`http://localhost:4000/jobs/company/${companyId}`, {
         withCredentials: true,
       });
+      console.log(data.jobs);
       setJobs(data.jobs);
     } catch (error) {
       console.error("Erreur lors de la récupération des annonces:", error);
@@ -114,6 +115,37 @@ export default function BordCompanyJob() {
       console.error("Erreur lors de la modification de l'annonce:", error);
       toast.error("Erreur lors de la modification de l'annonce");
     }
+};
+
+const [applicationInfo, setApplicationInfo] = useState();
+const [applicationJobId, setApplicationJobId] = useState(null);
+
+const handleClick = async (applications, jobId) => {
+  if (applicationJobId === jobId) {
+    setApplicationInfo(null);
+    setApplicationJobId(null);
+  } else {
+    try {
+      const promises = applications.map(applicationId => {
+        return axios.get(`http://localhost:4000/candidatures/${applicationId}`);
+      });
+      const responses = await Promise.all(promises);
+      console.log(responses);
+      const userIds = responses.map(response => response.data.candidature.user);
+      console.log(userIds);
+      const userPromises = userIds.map(userId => {
+        return axios.get(`http://localhost:4000//${userId}`);
+      });
+      const userResponses = await Promise.all(userPromises);
+      const users = userResponses.map(response => response.data);
+      console.log("Users:", users);
+      setApplicationInfo(users);
+      setApplicationJobId(jobId);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des informations sur les candidats:", error);
+      toast.error("Erreur lors de la récupération des informations sur les candidats");
+    }
+  }
 };
 
   
@@ -199,7 +231,7 @@ export default function BordCompanyJob() {
                 />
                 </div>
                 <div style={{ paddingRight: "1rem"  }}>
-                <button type="submit" style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Créer l'annonce</button>
+                <button type="submit" style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white", cursor: "pointer" }}>Créer l'annonce</button>
                 </div>
               </div>
             </form>
@@ -214,12 +246,38 @@ export default function BordCompanyJob() {
                     <h3 style={{ color: "white", paddingLeft: "1rem" }}>{job.title}</h3>
                     <p style={{ color: "white", paddingLeft: "1rem" }}>{job.description}</p>
                     <p style={{ color: "white", paddingLeft: "1rem" }}>Date : {new Date(job.createdAt).toLocaleDateString()}</p>
+                    <p 
+      style={{ 
+        color: "red", 
+        marginLeft: "1rem", 
+        cursor: "pointer", 
+        
+      }} 
+      onClick={() => handleClick(job.applications, job._id)}
+    >
+      [{job.applications.length}]
+    </p>
+    {applicationInfo && applicationJobId === job._id && applicationInfo.length > 0 && (
+    
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}> 
+        <h3 style={{ color: "white", paddingLeft: "1rem", marginTop: "2rem" }}>Candidats</h3>
+        <ul>
+          {applicationInfo.map((application, index) => (
+            <li style={{ display: "flex", marginTop: "0.5rem"}}  key={index}>
+              <p style={{ color: "white", paddingLeft: "1rem" }}>{application.firstName} {application.lastName} ({application.diploma}) </p>
+              <button style={{ color: "white", marginLeft: "1rem", backgroundColor: "green",  padding: "0rem 0.2rem", borderRadius: "0.2rem", border: "1px solid green", cursor: "pointer" }} >accepter</button>
+              <button style={{ color: "white", marginLeft: "1rem", backgroundColor: "red",  padding: "0rem 0.2rem", borderRadius: "0.2rem", border: "1px solid red", cursor: "pointer" }}>refuser</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
                   </div>
                   <div style={{ paddingRight: "1rem"  }}>
-                  <button onClick={() => handleModify(job._id)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Modifier</button>
+                  <button onClick={() => handleModify(job._id)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white", cursor: "pointer" }}>Modifier</button>
 
 
-                    <button onClick={() => handleDelete(job._id)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Supprimer</button>
+                    <button onClick={() => handleDelete(job._id)} style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white", cursor: "pointer" }}>Supprimer</button>
                   </div>
                 </li>
               ))}

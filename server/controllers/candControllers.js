@@ -23,7 +23,7 @@ module.exports.handleApply = async (req, res) => {
     });
     await candidature.save();
 
-    res.status(201).json({ success: true });
+    res.status(201).json({ success: true, id: candidature._id });
     } catch (error) {
     console.error("Erreur lors de la création de la candidature :", error);
     res.status(500).json({ success: false, message: "Erreur serveur interne" });
@@ -49,5 +49,20 @@ module.exports.getCandidatureStatus = async (req, res) => {
         res.status(500).json({ success: false, message: "Erreur serveur interne" });
     }
 };
+
+module.exports.getCandidature = async (req, res) => {
+    const { candidatureId } = req.params;
+    try {
+        const candidature = await Cand.findById(candidatureId);
+        if (!candidature) {
+            return res.status(404).json({ success: false, message: "Candidature non trouvée" });
+        }
+        res.status(200).json({ success: true, candidature });
+    } catch (error) {
+        console.error("Erreur lors de la sélection de la candidature :", error);
+        res.status(500).json({ success: false, message: "Erreur serveur interne" });
+    }
+    }
+
 
 

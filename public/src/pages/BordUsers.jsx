@@ -43,20 +43,32 @@ export default function BordUsers() {
 
   const handleApply = async (jobId, userId) => {
     try {
+      // Envoyer une requête POST pour créer une candidature
       const response = await axios.post(`http://localhost:4000/candidatures`, {
         jobId: jobId,
         userId: userId
       });
+  
       if (response.data.success) {
-        // Mettre à jour le statut directement
-        const updatedJobs = jobs.map(job => {
-          if (job._id === jobId) {
-            return { ...job, status: response.data.status };
-          }
-          return job;
-        });
-        setJobs(updatedJobs);
-        toast.success("Candidature envoyée avec succès!");
+        // Récupérer l'ID de la candidature créée
+        const candidatureId = response.data.id;
+        console.log(response.data);
+        // Envoyer une requête PUT pour mettre à jour l'emploi avec l'ID de la candidature
+        const updatedJobResponse = await axios.put(`http://localhost:4000/jobs/${jobId}/updateWithCandidature/${candidatureId}`);
+
+        if (updatedJobResponse.data.success) {
+          // Mettre à jour le statut directement
+          const updatedJobs = jobs.map(job => {
+            if (job._id === jobId) {
+              return { ...job, status: response.data.status };
+            }
+            return job;
+          });
+          setJobs(updatedJobs);
+          toast.success("Candidature envoyée avec succès!");
+        } else {
+          toast.error("Erreur lors de l'envoi de la candidature");
+        }
       } else {
         toast.error("Erreur lors de l'envoi de la candidature");
       }
@@ -65,6 +77,7 @@ export default function BordUsers() {
       toast.error("Erreur lors de l'envoi de la candidature");
     }
   };
+  
   
 
   const fetchCandidature = async (jobId, userId) => {
@@ -112,7 +125,7 @@ export default function BordUsers() {
                     <p style={{ color: "white", margin: 0 }}>Entreprise : { job.company.name ? job.company.name : "Anonyme"}</p>
                   </div>
                   <div style={{ paddingRight: "1rem"  }}>
-                  <button disabled={candidatureStatus && candidatureStatus[job._id]} onClick={() => handleApply(job._id, userId)}  style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white" }}>Postuler</button>
+                  <button disabled={candidatureStatus && candidatureStatus[job._id]} onClick={() => handleApply(job._id, userId)}  style={{ color: "black", marginLeft: "1rem", backgroundColor: "white",  padding: "0.2rem 0.5rem", borderRadius: "0.2rem", border: "1px solid white", cursor: "pointer" }}>Postuler</button>
                   <p style={{ 
                     color: candidatureStatus ? 
                     (candidatureStatus[job._id] === 'pending' ? "blue" : 
