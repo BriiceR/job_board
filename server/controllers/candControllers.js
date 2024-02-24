@@ -82,6 +82,20 @@ module.exports.updateCandidature = async (req, res) => {
     }
 };
 
+module.exports.getCandidatureByUser = async (req, res) => {
+    const { userId } = req.params;
+    console.log(req.params);
+    try {
+        
+        // Rechercher toutes les candidatures associées à cet utilisateur
+        const candidatures = await Cand.find({ user: userId });
+        
+        res.status(200).json({ success: true, candidatures });
+    } catch (error) {
+        console.error("Erreur lors de la sélection des candidatures de l'utilisateur :", error);
+        res.status(500).json({ success: false, message: "Erreur serveur interne" });
+    }
+};
 
 
 

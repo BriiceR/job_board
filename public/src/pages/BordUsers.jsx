@@ -84,7 +84,7 @@ export default function BordUsers() {
     try {
       const response = await axios.get(`http://localhost:4000/candidatures/${jobId}/${userId}/status`);
       if (response.data.success) {
-        console.log(response.data.status);
+        // console.log(response.data.status);
         return response.data.status;
       } else {
         return null;
