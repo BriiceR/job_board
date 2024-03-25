@@ -24,12 +24,12 @@ Ce projet est le backend d'une plateforme de recherche d'emploi en ligne, dével
 
 ## Installation:
 
-1- Clonez ce référentiel sur votre machine locale.
-2- Accédez au répertoire du projet.
-3- Créez un fichier .env à la racine du projet et configurez les variables d'environnement nécessaires pour la base de données MongoDB et la clé secrète JWT.
-4- Installez les dépendances en exécutant npm install.
-5- Démarrez le serveur en exécutant npm start.
-6- Le backend sera accessible à l'adresse http://localhost:4000.
+- Clonez ce référentiel sur votre machine locale.
+- Accédez au répertoire du projet.
+- Créez un fichier .env à la racine du projet et configurez les variables d'environnement nécessaires pour la base de données MongoDB et la clé secrète JWT.
+- Installez les dépendances en exécutant npm install.
+- Démarrez le serveur en exécutant npm start.
+- Le backend sera accessible à l'adresse http://localhost:4000.
 
 ## Contribution:
 
